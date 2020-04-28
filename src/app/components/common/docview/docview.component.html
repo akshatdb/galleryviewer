@@ -1,0 +1,75 @@
+<div class="top-bar text-left" #topBar>
+    <div class="top-bar-icons" [ngClass]="{'button-on':commentMode}" matTooltip="Add Comment"
+        (click)="toggleCommentMode()">
+        <mat-icon class="mat-icon">add_comment</mat-icon>
+    </div>
+    <!-- <div class="top-bar-icons" [ngClass]="{'button-on':commentShow}" (click)="toggleShowComments()">
+        <mat-icon class="mat-icon">comment</mat-icon>
+    </div> -->
+    <div class="top-bar-icons" [ngClass]="{'disabled': page === 1 || commentMode}" matTooltip="Previous Page"
+        (click)="prevPage()">
+        <mat-icon class="mat-icon">keyboard_arrow_left</mat-icon>
+    </div>
+    <div class="top-bar-icons" [ngClass]="{'disabled': page === noOfPages || commentMode}" matTooltip="Next Page"
+        (click)="nextPage()">
+        <mat-icon class="mat-icon">keyboard_arrow_right</mat-icon>
+    </div>
+    <div class="top-bar-icons" [ngClass]="{'disabled': commentMode}" matTooltip="Delete all Comments"
+        (click)="deleteAll()">
+        <mat-icon class="mat-icon">delete</mat-icon>
+    </div>
+    <div class="top-bar-icons" [ngClass]="{'disabled': commentMode, 'button-on': !hideComments}"
+        matTooltip="{{hideComments?'Show':'Hide'}} Comments" (click)="hideComments = !hideComments">
+        <mat-icon class="mat-icon">comment</mat-icon>
+    </div>
+    <div class="top-bar-icons">
+        <p>{{page}} of {{noOfPages}} </p>
+    </div>
+    <div class="top-bar-icons" [ngClass]="{'disabled': commentMode}" matTooltip="{{fullMode?'Minimize':'Fullscreen'}}"
+        (click)="toggleFullscreen()">
+        <mat-icon class="mat-icon">{{fullMode?'fullscreen_exit':'fullscreen'}}</mat-icon>
+    </div>
+</div>
+<div class="layers-container" (resized)="renderPdf()" #containerLayer>
+    <!-- <div class="img-layer" #containerLayer>
+    </div> -->
+    <div class="loader-layer" [ngClass]="{'loading': loading}" [style.width]="canvasEl.nativeElement.width + 'px'"
+        [style.height]="canvasEl.nativeElement.height + 'px'">
+        <div class="loader">Loading...</div>
+    </div>
+    <div class="canvas-layer">
+        <div #pdfcontainer class="canvas-container" style="height: inherit"
+            [style.width]="canvasEl.nativeElement.width + 'px'">
+            <canvas #pdfcanvas></canvas>
+        </div>
+    </div>
+    <div class="comment-layer" #commentLayer [hidden]="loading" [style.width]="canvasEl.nativeElement.width + 'px'"
+        [style.height]="canvasEl.nativeElement.height + 'px'">
+        <ng-container *ngFor="let comment of comments; let i = index">
+            <div *ngIf="comment.page === page && (current === i || showCommentsAlways)" class="comment-container"
+                [style.top]="comment.y" [style.left]="comment.x" [style.width]="comment.width"
+                [style.height]="comment.height" [style.background]="highlightColor"
+                [ngClass]="{filter: current === i && showCommentsAlways}" (click)="viewComment(comment)">
+            </div>
+        </ng-container>
+    </div>
+    <div class="comment-layer" #userLayer [hidden]="loading || hideComments || commentMode"
+        [style.width]="canvasEl.nativeElement.width + 'px'" [style.height]="canvasEl.nativeElement.height + 'px'">
+        <ng-container *ngFor="let comment of comments; let i = index">
+            <div *ngIf="comment.page === page && draggableComment" class="user-container" [style.top]="comment.icony"
+                [style.left]="comment.iconx" (longpress)="current = i" (clicked)="viewComment(comment)" draggable
+                [style.width]="'10px'" [style.height]="'10px'" (mouseover)="current = i" (mouseout)="current = -1"
+                (positionChange)="posChange(comment, $event)">
+                <mat-icon class="comment-icon">comment</mat-icon>
+            </div>
+            <div *ngIf="comment.page === page && !draggableComment" class="user-container" [style.top]="comment.icony"
+                [style.left]="comment.iconx" (click)="current = i; viewComment(comment)" [style.width]="'10px'"
+                [style.height]="'10px'" (mouseover)="current = i" (mouseout)="current = -1">
+                <mat-icon class="comment-icon">comment</mat-icon>
+            </div>
+        </ng-container>
+    </div>
+    <div class="event-layer" [ngClass]="{'selector-pointer':commentMode}" #eventLayer
+        [style.height]="canvasEl.nativeElement.height + 'px'" [style.width]="canvasEl.nativeElement.width + 'px'">
+    </div>
+</div>

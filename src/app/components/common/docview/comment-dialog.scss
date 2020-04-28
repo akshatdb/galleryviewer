@@ -1,0 +1,26 @@
+.full-width {
+  width: 100%;
+}
+
+.comment-class {
+  .comment-header {
+    display: block;
+    font-size: 14px;
+    .delete-comment {
+      color: rgb(141, 60, 60);
+      float: right;
+      cursor: pointer;
+      &:hover {
+        color: rgb(150, 80, 80);
+      }
+    }
+  }
+  .comment-content {
+    display: block;
+    font-size: 25px;
+  }
+  .comment-footer {
+    font-size: 12px;
+    float: right;
+  }
+}

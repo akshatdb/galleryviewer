@@ -1,0 +1,24 @@
+<div class="main-gallery-container" [ngClass]="{'fullscreen': fullScreenMode}" #galleryContainer>
+    <div class="main-bg" [ngStyle]="{'background-image': 'url(' + images[currentIndex] + ')'}">
+
+    </div>
+    <div class="tools">
+        <div class="fullscreen" (click)="fullScreenMode = !fullScreenMode">
+            <mat-icon>fullscreen</mat-icon>
+        </div>
+    </div>
+    <div *ngIf="currentIndex > 0" class="arrow arrow-left" (click)="prevPage()">
+        <mat-icon>arrow_back</mat-icon>
+    </div>
+    <ng-container *ngFor="let image of images; let i = index">
+        <div class="image-container" *ngIf="i === currentIndex" [@slideAnimation]="animationType">
+            <img [attr.src]="image">
+        </div>
+    </ng-container>
+    <div *ngIf="currentIndex < totalImages - 1" class="arrow arrow-right" (click)="nextPage()">
+        <mat-icon>arrow_forward</mat-icon>
+    </div>
+</div>
+<div class="load-next">
+    <img [attr.src]="images[(currentIndex+1)%totalImages]">
+</div>
