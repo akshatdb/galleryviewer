@@ -2,6 +2,9 @@
     <div class="main-bg" [ngStyle]="{'background-image': 'url(' + images[currentIndex] + ')'}">
 
     </div>
+    <div class="alt-bg">
+
+    </div>
     <div class="tools">
         <div class="fullscreen" (click)="fullScreenMode = !fullScreenMode">
             <mat-icon>fullscreen</mat-icon>
@@ -11,7 +14,7 @@
         <mat-icon>arrow_back</mat-icon>
     </div>
     <ng-container *ngFor="let image of images; let i = index">
-        <div class="image-container" *ngIf="i === currentIndex" [@slideAnimation]="animationType">
+        <div class="image-container" [@slideAnimation]="i === currentIndex ? 'show' : 'hide'">
             <img [attr.src]="image">
         </div>
     </ng-container>

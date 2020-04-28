@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, AfterContentChecked, AfterViewChecked } from '@angular/core';
-import { trigger, transition, useAnimation } from '@angular/animations';
+import { trigger, transition, useAnimation, state, style } from '@angular/animations';
 import { scaleIn, scaleOut, fadeIn, fadeOut, AnimationType } from './gallery.animation';
 
 @Component({
@@ -8,18 +8,24 @@ import { scaleIn, scaleOut, fadeIn, fadeOut, AnimationType } from './gallery.ani
   styleUrls: ['./gallery.component.scss'],
   animations: [
     trigger("slideAnimation", [
-      transition("void => scale", [
+      state('show', style({
+        display: 'block'
+      })),
+      state('hide', style({
+        display: 'none'
+      })),
+      transition("hide => show", [
         useAnimation(scaleIn, { params: { time: "500ms" } })
       ]),
-      transition("scale => void", [
+      transition("show => hide", [
         useAnimation(scaleOut, { params: { time: "500ms" } })
       ]),
-      transition("void => fade", [
-        useAnimation(fadeIn, { params: { time: "500ms" } })
-      ]),
-      transition("fade => void", [
-        useAnimation(fadeOut, { params: { time: "500ms" } })
-      ])
+      // transition("void => fade", [
+      //   useAnimation(fadeIn, { params: { time: "500ms" } })
+      // ]),
+      // transition("fade => void", [
+      //   useAnimation(fadeOut, { params: { time: "500ms" } })
+      // ])
     ])
   ]
 })
