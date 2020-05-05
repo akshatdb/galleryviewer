@@ -1,4 +1,5 @@
-<div class="main-gallery-container" [ngClass]="{'fullscreen': fullScreenMode}" #galleryContainer>
+<div class="main-gallery-container" [ngClass]="{'fullscreen': fullScreenMode}" #galleryContainer
+    (mouseenter)="stopSlideShow()" (mouseleave)="startSlideShow()">
     <div class="main-bg" [ngStyle]="{'background-image': 'url(' + images[currentIndex] + ')'}">
 
     </div>
@@ -10,7 +11,7 @@
             <mat-icon>fullscreen</mat-icon>
         </div>
     </div>
-    <div *ngIf="currentIndex > 0" class="arrow arrow-left" [ngClass]="{'arrow-hide': !showarrow}"
+    <div *ngIf="currentIndex > 0 || circular" class="arrow arrow-left" [ngClass]="{'arrow-hide': !showarrow}"
         (mouseenter)="showarrow = true" (mouseleave)="showarrow = false" (click)="prevPage()">
         <mat-icon>arrow_back</mat-icon>
     </div>
@@ -20,8 +21,9 @@
             <img [attr.src]="image">
         </div>
     </ng-container>
-    <div *ngIf="currentIndex < totalImages - 1" class="arrow arrow-right" [ngClass]="{'arrow-hide': !showarrow}"
-        (mouseenter)="showarrow = true" (mouseleave)="showarrow = false" (click)="nextPage()">
+    <div *ngIf="currentIndex < totalImages - 1 || circular" class="arrow arrow-right"
+        [ngClass]="{'arrow-hide': !showarrow}" (mouseenter)="showarrow = true" (mouseleave)="showarrow = false"
+        (click)="nextPage()">
         <mat-icon>arrow_forward</mat-icon>
     </div>
 </div>
