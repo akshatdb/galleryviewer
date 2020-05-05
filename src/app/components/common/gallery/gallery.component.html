@@ -10,15 +10,18 @@
             <mat-icon>fullscreen</mat-icon>
         </div>
     </div>
-    <div *ngIf="currentIndex > 0" class="arrow arrow-left" (click)="prevPage()">
+    <div *ngIf="currentIndex > 0" class="arrow arrow-left" [ngClass]="{'arrow-hide': !showarrow}"
+        (mouseenter)="showarrow = true" (mouseleave)="showarrow = false" (click)="prevPage()">
         <mat-icon>arrow_back</mat-icon>
     </div>
     <ng-container *ngFor="let image of images; let i = index">
-        <div class="image-container" [@slideAnimation]="i === currentIndex ? 'show' : 'hide'">
+        <div class="image-container" appSwipe (leftSwipe)="prevPage()" (rightSwipe)="nextPage()"
+            [@slideAnimation]="i === currentIndex ? 'show' : 'hide'">
             <img [attr.src]="image">
         </div>
     </ng-container>
-    <div *ngIf="currentIndex < totalImages - 1" class="arrow arrow-right" (click)="nextPage()">
+    <div *ngIf="currentIndex < totalImages - 1" class="arrow arrow-right" [ngClass]="{'arrow-hide': !showarrow}"
+        (mouseenter)="showarrow = true" (mouseleave)="showarrow = false" (click)="nextPage()">
         <mat-icon>arrow_forward</mat-icon>
     </div>
 </div>

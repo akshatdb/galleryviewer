@@ -58,6 +58,8 @@
     margin: 0px 7px;
     top: 43%;
     z-index: 10;
+    opacity: 1;
+    transition: opacity 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     &:hover {
       background: #f5e5e5c4;
       cursor: pointer;
@@ -69,6 +71,10 @@
       right: 0;
     }
   }
+  .arrow-hide {
+    opacity: 0.2;
+  }
+
   .tools {
     .fullscreen {
       position: absolute;

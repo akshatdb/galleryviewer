@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { trigger, transition, useAnimation, state, style } from '@angular/animations';
 import { scaleIn, scaleOut, fadeIn, fadeOut, AnimationType } from './gallery.animation';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-gallery',
@@ -43,9 +44,11 @@ export class GalleryComponent implements OnInit {
   currentIndex = 0;
   totalImages = 0;
   currentImage;
+  showarrow = true;
   @ViewChild('galleryContainer') galleryContainer: ElementRef;
   ngOnInit(): void {
     this.animationType = AnimationType.Scale;
+    timer(5000).subscribe(evt => this.showarrow = false);
   }
 
   ngOnChanges() {
